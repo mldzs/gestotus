@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from decouple import config
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,10 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1%m7f%t4o-xw$s*$9@efxh=9*&jbn0h!ujmq#*n+u+f8o)4w(3'
+#SECRET_KEY = '1%m7f%t4o-xw$s*$9@efxh=9*&jbn0h!ujmq#*n+u+f8o)4w(3'
+SECRET_KEY = config("SECRET_KEY", default="set your secret key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -87,9 +91,13 @@ WSGI_APPLICATION = 'gestotus.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("POSTGRES_DB", default="healthbuddy"),
+        "USER": config("POSTGRES_USER", default="ilha_healthbuddy"),
+        "PASSWORD": config("POSTGRES_PASSWORD", default="ilha102030"),
+        "HOST": config("POSTGRES_HOST", default="db"),
+        "PORT": "5432",
     }
 }
 
